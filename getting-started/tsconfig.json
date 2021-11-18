@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    // js파일에서 // @ts-check와 같은 기능
+    "checkJs": true,
+    // 모든 타입에 대해서 any라도 넣어야 한다.
+    "noImplicitAny": true
+  }
+} 
