@@ -1,21 +1,4 @@
-interface PhoneNumberDictionary {
-  [phone: string]: {
-    num: number;
-  };
-}
-
-interface Contact {
-  name: string;
-  address: string;
-  phones: PhoneNumberDictionary;
-}
-
-enum PhoneType {
-  Home = 'home',
-  Office = 'office',
-  Studioo = 'studio',
-}
-
+import { Contact, PhoneType } from './types';
 // api
 // TODO: 아래 함수의 반환 타입을 지정해보세요.
 // api의 응답규격을 정의할 때 제네릭을 가장 많이 쓰게 된다.
