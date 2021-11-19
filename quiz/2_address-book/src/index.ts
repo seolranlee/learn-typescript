@@ -115,5 +115,11 @@ class AddressBook {
   }
   /* ------------------------------------------------ */
 }
+// let div = document.querySelector('div');
+
+// div.innerText; // Object is possibly 'null'.ts // let div: HTMLDivElement | null
+
+let div = document.querySelector('div') as HTMLDivElement; // 타입 단언 // div element가 존재
+div.innerText;
 
 new AddressBook();
