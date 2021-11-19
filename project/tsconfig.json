@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    // ts파일을 js로 변환해줄때 그 js파일이 변환되는 ES버전
+    "target": "ES5",
+    "outDir": "./built",
+    // prmoise를 인식시키기 위해선 Node
+    "moduleResolution": "Node"
+  },
+  // 몇단계로 위계가 더 내려가든 src이하 파일 모두 대상으로 한다: /**/*
+  "include": ["./src/**/*"]
+}
