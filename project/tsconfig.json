@@ -5,7 +5,9 @@
     "target": "ES5",
     "outDir": "./built",
     // prmoise를 인식시키기 위해선 Node
-    "moduleResolution": "Node"
+    "moduleResolution": "Node",
+    // promise, dom관련 에러 해결
+    "lib": ["ES2015", "DOM", "DOM.Iterable"]
   },
   // 몇단계로 위계가 더 내려가든 src이하 파일 모두 대상으로 한다: /**/*
   "include": ["./src/**/*"]
