@@ -8,7 +8,9 @@
     "moduleResolution": "Node",
     // promise, dom관련 에러 해결
     "lib": ["ES2015", "DOM", "DOM.Iterable"],
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    // type선언 라이브러리를 제공하지 않으면=> types를 뒤진다(내가 정의하는 폴더)
+    "typeRoots": ["./node_modules/@types", "./types"]
   },
   // 몇단계로 위계가 더 내려가든 src이하 파일 모두 대상으로 한다: /**/*
   "include": ["./src/**/*"]

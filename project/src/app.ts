@@ -1,4 +1,18 @@
-const sum = (a, b) => a + b;
+// 라이브러리 로드
+// import 변수명 from '라이브러리 이름'
+
+// axios는 지속적으로 관리가 잘 되는 라이브러리라 내부적으로 타입 정의가 되어 있음.
+import axios from 'axios';
+
+// Could not find a declaration file for module 'chart.js'. '/Users/seolranlee/study/typescript/learn-typescript/project/node_modules/chart.js/dist/Chart.js' implicitly has an 'any' type.
+// Try `npm i --save-dev @types/chart.js` if it exists or add a new declaration (.d.ts) file containing `declare module 'chart.js';`ts(7016)
+// axios에 반해 chart.js는 그렇지 못함.
+
+// Chart.js는 common.js기반의 형태로 구현된 라이브러리 => * as Chart로 가져온다.
+import * as Chart from 'chart.js';
+
+// 변수, 함수 임포트 문법
+// import {} from '파일 상대 경로'
 
 // utils
 
@@ -187,7 +201,8 @@ async function setupData() {
 }
 
 function renderChart(data: any, labels: any) {
-  const ctx = $('#lineChart').getContext('2d');
+  const lineChart = $('#lineChart') as HTMLCanvasElement;
+  const ctx = lineChart.getContext('2d');
   Chart.defaults.color = '#f5eaea';
   Chart.defaults.font.family = 'Exo 2';
   new Chart(ctx, {
