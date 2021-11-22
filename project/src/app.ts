@@ -2,7 +2,7 @@
 // import 변수명 from '라이브러리 이름'
 
 // axios는 지속적으로 관리가 잘 되는 라이브러리라 내부적으로 타입 정의가 되어 있음.
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 // Could not find a declaration file for module 'chart.js'. '/Users/seolranlee/study/typescript/learn-typescript/project/node_modules/chart.js/dist/Chart.js' implicitly has an 'any' type.
 // Try `npm i --save-dev @types/chart.js` if it exists or add a new declaration (.d.ts) file containing `declare module 'chart.js';`ts(7016)
@@ -14,6 +14,12 @@ import * as Chart from 'chart.js';
 // 변수, 함수 임포트 문법
 // import {} from '파일 상대 경로'
 
+// 타입 모듈
+import {
+  CovidStatus,
+  CovidSumaryResponse,
+  CountrySummaryResponse,
+} from './covid/index';
 // utils
 
 // querySelector helper함수
@@ -62,18 +68,15 @@ let isDeathLoading = false;
 const isRecoveredLoading = false;
 
 // api
-function fetchCovidSummary() {
+function fetchCovidSummary(): Promise<AxiosResponse<CovidSumaryResponse>> {
   const url = 'https://api.covid19api.com/summary';
   return axios.get(url);
 }
 
-enum CovidStatus {
-  Confirmed = 'confirmed',
-  Recovered = 'recovered',
-  Deaths = 'deaths',
-}
-
-function fetchCountryInfo(countryCode: string, status: CovidStatus) {
+function fetchCountryInfo<T>(
+  countryCode: string,
+  status: CovidStatus
+): Promise<AxiosResponse<T>> {
   // status params: confirmed, recovered, deaths
   const url = `https://api.covid19api.com/country/${countryCode}/status/${status}`;
   return axios.get(url);
@@ -108,18 +111,15 @@ async function handleListClick(event: any) {
   clearRecoveredList();
   startLoadingAnimation();
   isDeathLoading = true;
-  const { data: deathResponse } = await fetchCountryInfo(
-    selectedId,
-    CovidStatus.Deaths
-  );
-  const { data: recoveredResponse } = await fetchCountryInfo(
-    selectedId,
-    CovidStatus.Recovered
-  );
-  const { data: confirmedResponse } = await fetchCountryInfo(
-    selectedId,
-    CovidStatus.Confirmed
-  );
+  const { data: deathResponse } = await fetchCountryInfo<
+    CountrySummaryResponse<CovidStatus.Deaths>[]
+  >(selectedId, CovidStatus.Deaths);
+  const { data: recoveredResponse } = await fetchCountryInfo<
+    CountrySummaryResponse<CovidStatus.Recovered>[]
+  >(selectedId, CovidStatus.Recovered);
+  const { data: confirmedResponse } = await fetchCountryInfo<
+    CountrySummaryResponse<CovidStatus.Confirmed>[]
+  >(selectedId, CovidStatus.Confirmed);
   endLoadingAnimation();
   setDeathsList(deathResponse);
   setTotalDeathsByCountry(deathResponse);
@@ -192,6 +192,7 @@ function endLoadingAnimation() {
 }
 
 async function setupData() {
+  // 객체의 특정 속성에 바로 접근하는 것: 구조 분해 할당: https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
   const { data } = await fetchCovidSummary();
   setTotalConfirmedNumber(data);
   setTotalDeathsByWorld(data);
